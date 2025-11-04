@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Superheroes</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="contenedor">
+        <div class="header">
+            <h1>Dashboard de Superheroes</h1>
+            <a href="heroes/nuevo" class="boton-agregarSuperheroe">Agregar Superheroe</a>
+            <div class="header-estadisticas">
+                <div class="header-estadistica">
+                    <h3>Total Superheroes</h3>
+                    <div class="header-texto-estadistica"><%= superheroes.length %></div>
+                </div>
+                <div class="header-estadistica">
+                    <h3>Total Superheroes mayores a 30</h3>
+                    <div class="header-texto-estadistica"><%= superheroes.filter(heroe => heroe.edad > 30).length %></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="lista-heroes">
+            <% if(superheroes.length === 0){ %>
+                <div class="no-heroes">
+                    <p>No hay heroes cargados</p>
+                </div>
+            <% } else { %>
+                <div class="heroes-grid">
+                    <% superheroes.forEach(heroe => { %>
+                        <div class="heroe-carta">
+                            <h2 class="heroe-nombre"><%= heroe.nombreSuperHeroe %></h2>
+
+                            <div class="heroe-info">
+                                <strong>Nombre Real:</strong> <%= heroe.nombreReal %>
+                            </div>
+                            
+                            <div class="heroe-info">
+                                <strong>Edad:</strong> <%= heroe.edad %> años
+                            </div>
+                            
+                            <div class="heroe-info">
+                                <strong>Planeta de origen:</strong> <%= heroe.planetaOrigen? heroe.planetaOrigen : 'Sin planeta de origen cargado' %>
+                            </div>
+                            
+                            <div class="heroe-info">
+                                <strong>Debilidad:</strong> <%= heroe.debilidad ? heroe.debilidad : 'Sin debilidad cargada' %>
+                            </div>
+                            
+                            <div class="heroe-arrays">
+                                <h4>Poderes:</h4>
+                                <div class="tags">
+                                    <% heroe.poderes.forEach(poder => { %>
+                                        <span class="span-array"><%= poder %></span>
+                                    <% }); %>
+                                </div>
+                            </div>
+                            
+                            <div class="heroe-arrays">
+                                <h4>Aliados:</h4>
+                                <div class="tags">
+                                    <% if(heroe.aliados && heroe.aliados.length > 0) { %>
+                                        <% heroe.aliados.forEach(aliado => { %>
+                                            <span class="span-array"><%= aliado %></span>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <span class="span-array-sin-datos">Sin aliados cargados</span>
+                                    <% } %>
+                                </div>
+                            </div>
+                            
+                            <div class="heroe-arrays">
+                                <h4>Enemigos:</h4>
+                                <div class="tags">
+                                    <% if(heroe.enemigos && heroe.enemigos.length > 0) { %>
+                                        <% heroe.enemigos.forEach(enemigo => { %>
+                                            <span class="span-array"><%= enemigo %></span>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <span class="span-array-sin-datos">Sin enemigos cargados</span>
+                                    <% } %>
+                                </div>
+                            </div>
+                            
+                            <div class="heroe-info">
+                                <strong>Creador:</strong> <%= heroe.creador ? heroe.creador : 'Sin creador cargado' %>
+                            </div>
+                            
+                            <div class="heroes-accion">
+                                <a href="heroes/editar/<%= heroe._id %>" class="heroe-accion" id="boton-editar">Editar</a>
+                                <button class="heroe-accion" id="boton-eliminar" onclick="confirmarEliminacion('<%= heroe._id %>', '<%= heroe.nombreSuperHeroe %>')">Eliminar</button>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>
